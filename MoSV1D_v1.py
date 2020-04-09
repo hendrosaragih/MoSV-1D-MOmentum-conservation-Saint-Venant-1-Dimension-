@@ -5,9 +5,10 @@ from tkinter import *
 from PIL import Image
 import numpy as np
 import matplotlib
-matplotlib.use("Agg")
+matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+import tornado
 
 root = tk.Tk()
 root.geometry("1050x680")
@@ -280,13 +281,14 @@ class Window(tk.Frame):
 	    	return animation_gif
 
 	def save_animate_mp4(self):
-
+		Writer = animation.writers['pillow']
+		writer = Writer(fps=15, metadata=dict(artist='Me'), bitrate=1800)
 		file_name_mp4 = self.Aniname_mp4.get()
 
 		if len(self.Aniname_mp4.get())==0:
 			messagebox.showwarning("Warning", "Please Give Name File!")
 		else:
-			animation_mp4 = self.ani.save(file_name_mp4+'.mp4', fps=30, bitrate=20)
+			animation_mp4 = self.ani.save(file_name_mp4+'.png', writer='imagemagick')
 			return animation_mp4
 	        
 	def init_window(self):
